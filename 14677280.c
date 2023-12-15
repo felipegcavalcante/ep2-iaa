@@ -5,7 +5,7 @@
 /**                                                                 **/
 /**   Segundo Exercicio-Programa                                    **/
 /**                                                                 **/
-/**   <nome do(a) aluno(a)>                   <numero USP>          **/
+/**   Felipe Gonçalves Cavalcante                   14677280        **/
 /**                                                                 **/
 /*********************************************************************/
 
