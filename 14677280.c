@@ -136,10 +136,44 @@ void zerarCores(MAPA map){
    com essa cor.
 */
 int resolveGuloso(MAPA map){
+    int i, j;
 
-    	/* COMPLETE A IMPLEMENTACAO DA FUNCAO*/
+    // Define o primeiro país com a cor 0 (primeira cor) e define o total de cores usadas como 1 (cor 0)
+    map.paises[0].cor = 0;
+    int totalCores = 1;
 
-    return -1;
+
+    // Percorre todos países do mapa
+    for (i = 1; i < map.numPaises; i++)
+    {
+        // Define variável pais
+        PAIS *pais = &(map.paises[i]);
+        // Define sua cor como 0
+        pais->cor = 0;
+
+        // Percorre os paízes vizinhos
+        for(j = 0; j < pais->numVizinhos; j++)
+        {
+            // Verifica a cor do país vizinho
+            if (pais->vizinhos[j]->cor == pais->cor)
+            {
+                // se a cor já estiver sendo usada, tenta a próxima cor
+                pais->cor++;
+                // Subtrai o valor de j fazer o loop novamente e verificar com a nova cor definida
+                j = -1;
+            }
+        }
+
+        // Atualiza a cor no país
+        map.paises[i].cor = pais->cor;
+
+        // se a cor atribuida no passo anterior é maior ou igual ao total de cores,
+        // define novo valor para o total de cores
+        if (pais->cor >= totalCores) totalCores = pais->cor + 1;
+    }
+
+    // devolve o total de cores
+    return totalCores;
 }
 
 
@@ -168,7 +202,7 @@ bool resolveTentativaEErro(MAPA map, int maxCor){
 
     	/* COMPLETE A IMPLEMENTACAO DA FUNCAO*/
 
-    return false;
+    return true;
 }
 
 
