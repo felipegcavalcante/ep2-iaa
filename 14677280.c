@@ -177,7 +177,59 @@ int resolveGuloso(MAPA map){
 }
 
 
+bool ehPossivelColorir(PAIS *pais, int cor) {
+    // itera sobre os vizinhos
+    for (int i = 0; i < pais->numVizinhos; i++)
+    {
+        // ve se a cor atual está sendo usada pelo vizinho,
+        // se estiver retorna falso pois nao é possivel colorir
+        if (pais->vizinhos[i]->cor == cor)
+        {
+            return false;
+        }
+    }
 
+    // retorna verdadeiro caso a cor não seja igual de nenhum dos seus vizinhos,
+    // pois é possivel colorir
+    return true;
+}
+
+bool backtrackingAux(MAPA map, int maxCor, int paisAtual) {
+    int cor;
+
+    // define a variavel país
+    PAIS *pais = &(map.paises[paisAtual]);
+
+    // Se todos países forem coloridos retornar verdadeiro,
+    // pois foi possível colorir com esse numero de cores
+    if (paisAtual == map.numPaises)
+    {
+        return true;
+    }
+
+    // itera sobre o maximo de cores e tenta colorir o país com a cor atual
+    for (cor = 0; cor < maxCor; cor++)
+    {
+        if (ehPossivelColorir(pais, cor))
+        {
+            // define o país atual com a cor atual
+            pais->cor = cor;
+
+            // chama a função novamente, mas agora passando o próximo país
+            if (backtrackingAux(map, maxCor, paisAtual + 1))
+            {
+                return true;
+            }
+
+            // se a função chamada recursivamente falhar, define novamente a cor como -1
+            pais->cor = -1;
+        }
+    }
+
+    // caso não for possível colorir com nenhuma cor, retorna falso
+    return false;
+
+}
 
 /* Funcao que recebe um mapa como parametro e um numero de cores (maxCor) e
    tenta colorir o mapa usando o numero de cores passado como parametro.
@@ -198,11 +250,19 @@ int resolveGuloso(MAPA map){
    pais atual com a ``cor'' -1 e retornar (backtracking) para tentar outra
    coloracao (tentar, por exemplo, colorir o pais anterior com outra cor.
 */
+
+
 bool resolveTentativaEErro(MAPA map, int maxCor){
+    // define todos os países com cor -1, pois ainda não foram coloridos,
+    // e caso não sejam, serão cores inválidas
+    for (int i = 0; i < map.numPaises; i++)
+    {
+        map.paises[i].cor = -1;
+    }
 
-    	/* COMPLETE A IMPLEMENTACAO DA FUNCAO*/
-
-    return true;
+    // chamo a função auxiliar para resolver recursivamente, passo o mapa, numero maximo de cores,
+    // o índice do país atual para a função
+    return backtrackingAux(map, maxCor, 0);
 }
 
 
