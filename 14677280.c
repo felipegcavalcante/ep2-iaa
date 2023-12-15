@@ -176,6 +176,7 @@ int resolveGuloso(MAPA map){
     return totalCores;
 }
 
+// Funções Auxiliares (ehPossivelColorir e backtrackingAux)
 
 bool ehPossivelColorir(PAIS *pais, int cor) {
     // itera sobre os vizinhos
